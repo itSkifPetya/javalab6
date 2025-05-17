@@ -14,4 +14,5 @@ public class InfoCommand extends Command {
                 """.formatted(collection.size(), collection.getClass().getName());
         return new Result(true, info, collection);
     }
+
 }

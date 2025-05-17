@@ -151,6 +151,10 @@ public class HumanBeing implements Comparable<HumanBeing> {
         return coordinates;
     }
 
+    public String toPrettyString() {
+        return "";
+    }
+
     @Override
     public String toString() {
         return "HumanBeing{" +

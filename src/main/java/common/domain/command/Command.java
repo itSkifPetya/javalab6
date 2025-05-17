@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Hashtable;
 
 /**
- * Интерфейс Команда. Часть реализации паттерна "Command"
+ * Абстрактный класс Команда. Часть реализации паттерна "Command"
  */
 public abstract class Command implements Serializable {
     /**
@@ -22,7 +22,7 @@ public abstract class Command implements Serializable {
      * аргументов у команды при распознавании
      * @return
      */
-    int getArgsCount() {
+    public int getArgsCount() {
         return 0;
     }
 }

@@ -8,7 +8,6 @@ import common.data.models.Result;
 import common.domain.command.Command;
 
 import java.util.Hashtable;
-import java.util.stream.Collectors;
 
 public class UpdateCommand extends Command {
     @Override
