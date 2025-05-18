@@ -30,22 +30,23 @@ public class Invoker {
      * Инициализация доступных команд и запись в коллекцию
      */
     public void invokerInit() {
-//        commandMap.put("help", new HelpCommand());
-//        commandMap.put("info", new InfoCommand());
-//        commandMap.put("show", new ShowCommand());
-//        commandMap.put("insert", new InsertCommand());
-//        commandMap.put("update", new UpdateCommand());
-//        commandMap.put("remove_key", new RemoveKeyCommand());
-//        commandMap.put("clear", new ClearCommand());
-////        commandMap.put("save", new SaveCommand()); TODO: отсутствует в клиенте :)
-//        commandMap.put("execute_script", new ExecuteScriptCommand());
+        commandMap.put("help", new HelpCommand());
+        commandMap.put("info", new InfoCommand());
+        commandMap.put("show", new ShowCommand());
+        commandMap.put("insert", new InsertCommand());
+        commandMap.put("update", new UpdateCommand());
+        commandMap.put("remove_key", new RemoveKeyCommand());
+        commandMap.put("clear", new ClearCommand());
+//        commandMap.put("save", new SaveCommand()); TODO: отсутствует в клиенте :)
+        commandMap.put("execute_script", new ExecuteScriptCommand());
 //        commandMap.put("exit", new ExitCommand());
-//        commandMap.put("history", new HistoryCommand());
-//        commandMap.put("replace_if_greater", new ReplaceIfGreaterCommand());
-//        commandMap.put("remove_greater_key", new RemoveGreaterKeyCommand());
-//        commandMap.put("sum_of_impact_speed", new SumOfImpactSpeedCommand());
-//        commandMap.put("min_by_soundtrack_name", new MinBySoundtrackNameCommand());
-//        commandMap.put("group_counting_by_has_toothpick", new GroupCountingByHasToothpickCommand());
+        commandMap.put("history", new HistoryCommand());
+        commandMap.put("replace_if_greater", new ReplaceIfGreaterCommand());
+        commandMap.put("remove_greater_key", new RemoveGreaterKeyCommand());
+        commandMap.put("sum_of_impact_speed", new SumOfImpactSpeedCommand());
+        commandMap.put("min_by_soundtrack_name", new MinBySoundtrackNameCommand());
+        commandMap.put("group_counting_by_has_toothpick", new GroupCountingByHasToothpickCommand());
+//        commandMap.put("load_collection")/**/
     }
 
     /**

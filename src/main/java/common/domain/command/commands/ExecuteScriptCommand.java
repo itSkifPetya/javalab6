@@ -1,7 +1,7 @@
 package common.domain.command.commands;
 
 import common.data.models.HumanBeingModel.HumanBeing;
-import common.data.models.Result;
+import common.data.models.Response;
 import common.domain.command.Command;
 import common.domain.command.Invoker;
 
@@ -14,12 +14,12 @@ import java.util.Scanner;
 
 public class ExecuteScriptCommand extends Command {
     @Override
-    public Result execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
+    public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         String path = args[0];
         Invoker invoker = Invoker.getInstance();
         Map<String, Command> commandMap = invoker.getCommandMap();
         String message = "";
-        Result result = null;
+        Response response = null;
 
         try (Scanner sc = new Scanner(new FileReader(path))) {
             String inp;
@@ -36,13 +36,13 @@ public class ExecuteScriptCommand extends Command {
                     message += "Команда %s не имеет аргументов или их количество некорректно\n".formatted(inpArray.getFirst());
                     continue;
                 }
-                result = command.execute(collection, new String[]{inpArray.removeFirst()});
+                response = command.execute(collection, new String[]{inpArray.removeFirst()});
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        if (result == null) result = new Result(false, "", collection);
+        if (response == null) response = new Response(false, "", collection);
 
-        return new Result(true, message, result.getData());
+        return new Response(true, message, response.getData());
     }
 }

@@ -1,5 +1,7 @@
 package common.data.models.HumanBeingModel;
 
+
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -7,7 +9,7 @@ import java.util.UUID;
 /**
  * Модель класса HumanBeing. С этим типом данных осуществляется работа в коллекции
  */
-public class HumanBeing implements Comparable<HumanBeing> {
+public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -95,50 +97,6 @@ public class HumanBeing implements Comparable<HumanBeing> {
         }
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCoordinates(int x, double y) {
-        this.coordinates = new Coordinates(x, y);
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public void setRealHero(Boolean realHero) {
-        this.realHero = realHero;
-    }
-
-    public void setHasToothpick(Boolean hasToothpick) {
-        this.hasToothpick = hasToothpick;
-    }
-
-    public void setImpactSpeed(double impactSpeed) {
-        this.impactSpeed = impactSpeed;
-    }
-
-    public void setSoundtrackName(String soundtrackName) {
-        this.soundtrackName = soundtrackName;
-    }
-
-    public void setMinutesOfWaiting(long minutesOfWaiting) {
-        this.minutesOfWaiting = minutesOfWaiting;
-    }
-
-    public void setWeaponType(WeaponType weaponType) {
-        this.weaponType = weaponType;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -152,7 +110,20 @@ public class HumanBeing implements Comparable<HumanBeing> {
     }
 
     public String toPrettyString() {
-        return "";
+        return String.format(
+                "─── ID: %d ───%n" +
+                        "├─ Пострадавший: %s%n" +
+                        "├─ Дата регистрации: %s | Координаты: %d,%.2f%n" +
+                        "├─ Удар: %.1f км/ч | Время ожидания: %d мин%n" +
+                        "├─ Герой: %s | Оружие: %s%n" +
+                        "└─ Авто: %s%n",
+                id,
+                name,
+                creationDate, coordinates.getX(), coordinates.getY(),
+                impactSpeed, minutesOfWaiting,
+                realHero ? "✓" : "✗", weaponType,
+                car != null ? (car.isCool() ? "Крутое" : "Обычное") : "Нет"
+        );
     }
 
     @Override

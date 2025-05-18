@@ -1,16 +1,15 @@
 package common.domain.command.commands;
 
 import common.data.models.HumanBeingModel.HumanBeing;
-import common.data.models.Result;
+import common.data.models.Response;
 import common.domain.command.Command;
 
 import java.util.Hashtable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GroupCountingByHasToothpickCommand extends Command {
     @Override
-    public Result execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
+    public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         String message = "";
         List<HumanBeing> col1, col2;
         col1 = collection.values()
@@ -29,6 +28,7 @@ public class GroupCountingByHasToothpickCommand extends Command {
         for (HumanBeing hb : col2) {
             message += hb.toPrettyString() + "\n";
         }
-        return new Result(true, message, collection);
+        return new Response(true, message, collection);
     }
+
 }

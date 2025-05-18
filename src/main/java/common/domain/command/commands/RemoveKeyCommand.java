@@ -1,22 +1,27 @@
 package common.domain.command.commands;
 
 import common.data.models.HumanBeingModel.HumanBeing;
-import common.data.models.Result;
+import common.data.models.Response;
 import common.domain.command.Command;
 
 import java.util.Hashtable;
 
 public class RemoveKeyCommand extends Command {
     @Override
-    public Result execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
+    public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         Integer key = Integer.parseInt(args[0]);
         boolean keyExists = collection.keySet().stream().anyMatch(s -> s.equals(key));
 
         if (keyExists) {
             collection.remove(key);
-            return new Result(true, "", collection);
+            return new Response(true, "", collection);
         } else {
-            return new Result(false, "Элемент с таким ключом не существует", collection);
+            return new Response(false, "Элемент с таким ключом не существует", collection);
         }
+    }
+
+    @Override
+    public int getArgsCount() {
+        return 1;
     }
 }

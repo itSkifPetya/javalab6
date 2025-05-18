@@ -1,16 +1,18 @@
 package common.data.models.HumanBeingModel;
 
+import java.io.Serializable;
+
 /**
  * Модель класса Car
  */
-public class Car {
+public class Car implements Serializable {
     private Boolean cool; //Поле не может быть null
 
     public Car(Boolean cool) {
         this.cool = cool;
     }
 
-    public Boolean getCool() {
+    public Boolean isCool() {
         return cool;
     }
 

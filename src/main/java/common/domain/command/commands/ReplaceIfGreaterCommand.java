@@ -4,19 +4,19 @@ import common.data.models.HumanBeingModel.Car;
 import common.data.models.HumanBeingModel.Coordinates;
 import common.data.models.HumanBeingModel.HumanBeing;
 import common.data.models.HumanBeingModel.WeaponType;
-import common.data.models.Result;
+import common.data.models.Response;
 import common.domain.command.Command;
 
 import java.util.Hashtable;
 
 public class ReplaceIfGreaterCommand extends Command {
     @Override
-    public Result execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
+    public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         String message = "";
         Integer key = Integer.parseInt(args[0]);
         boolean keyExists = collection.keySet().stream().anyMatch(i -> i.equals(key));
 
-        if (!keyExists) return new Result(false, "Такого id нет.", collection);
+        if (!keyExists) return new Response(false, "Такого id нет.", collection);
 
         String name = args[1];
         int coordX = Integer.parseInt(args[2]);
@@ -38,6 +38,11 @@ public class ReplaceIfGreaterCommand extends Command {
             message += "Новый элемент меньше старого. Коллекция не изменена.";
         }
 
-        return new Result(true, message, collection);
+        return new Response(true, message, collection);
+    }
+
+    @Override
+    public int getArgsCount() {
+        return 1;
     }
 }

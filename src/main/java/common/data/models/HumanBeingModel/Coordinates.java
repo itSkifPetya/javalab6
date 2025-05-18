@@ -1,9 +1,11 @@
 package common.data.models.HumanBeingModel;
 
+import java.io.Serializable;
+
 /**
  * Модель класса Coordinates
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
     private int x;
     private double y;
 

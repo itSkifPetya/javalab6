@@ -1,0 +1,6 @@
+id,name,coordX,coordY,creationDate,realHero,hasToothpick,impactSpeed,soundtrackName,miutesOfWaiting,weaponType,car
+943075430,Alex,1,1.0,2025-03-11,true,true,100.0,Everybody loves me,100,SHOTGUN,true
+22,Peep,12,344.0,2025-03-26,true,true,127.0,Lalala,138384,BAT,true
+777,John,45,67.5,2025-03-15,false,false,89.5,Thunderstruck,30,MACHINE_GUN,false
+123456789,Eve,-10,205.3,2025-03-20,true,false,150.0,Bohemian Rhapsody,720,AXE,true
+42,Arthur,0,0.0,2025-03-25,true,true,200.0,The Final Countdown,5,PISTOL,false

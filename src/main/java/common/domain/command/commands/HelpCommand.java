@@ -1,14 +1,14 @@
 package common.domain.command.commands;
 
 import common.data.models.HumanBeingModel.HumanBeing;
-import common.data.models.Result;
+import common.data.models.Response;
 import common.domain.command.Command;
 
 import java.util.Hashtable;
 
 public class HelpCommand extends Command {
     @Override
-    public Result execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
+    public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         String help = """
                 help: вывести справку по доступным командам\n
                 info: информация о коллекци\n
@@ -26,6 +26,6 @@ public class HelpCommand extends Command {
                 min_by_soundtrack_name: вывести любой элемент коллекции с минимальным полем soundtrackName\n
                 group_counting_by_has_toothpick: сгруппировать элементы коллекции по значению поля hasToothpick, вывести количество элементов в каждой группе\n
                 """;
-        return new Result(true, help, collection);
+        return new Response(true, help, collection);
     }
 }

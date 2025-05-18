@@ -1,7 +1,7 @@
 package common.domain.command;
 
 import common.data.models.HumanBeingModel.HumanBeing;
-import common.data.models.Result;
+import common.data.models.Response;
 
 import java.io.Serializable;
 import java.util.Hashtable;
@@ -15,7 +15,7 @@ public abstract class Command implements Serializable {
      * @param collection коллекция, с которой работает команда. Тип - Hashtable<Integer, HumanBeing>
      * @param args строковый массив, содержащий аргументы команды, если есть. В ином случае - пустой массив
      */
-    public abstract Result execute(Hashtable<Integer, HumanBeing> collection, String[] args);
+    public abstract Response execute(Hashtable<Integer, HumanBeing> collection, String[] args);
 
     /**
      * Возвращает количество аргументов команды. При помощи данного метода происходит проверка наличия

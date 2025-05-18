@@ -4,18 +4,17 @@ import common.data.models.HumanBeingModel.Car;
 import common.data.models.HumanBeingModel.Coordinates;
 import common.data.models.HumanBeingModel.HumanBeing;
 import common.data.models.HumanBeingModel.WeaponType;
-import common.data.models.Result;
+import common.data.models.Response;
 import common.domain.command.Command;
 
 import java.util.Hashtable;
 
 public class InsertCommand extends Command {
     @Override
-    public Result execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
-
+    public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         Integer key = Integer.parseInt(args[0]);
         boolean keyExists = collection.keySet().stream().anyMatch(k -> k.equals(key));
-        if (keyExists) return new Result(false, "Такой ключ уже используется. Используйте update (подробнее - help).", collection);
+        if (keyExists) return new Response(false, "Такой ключ уже используется. Используйте update (подробнее - help).", collection);
 
         String name = args[1];
         int coordX = Integer.parseInt(args[2]);
@@ -33,6 +32,11 @@ public class InsertCommand extends Command {
 
         collection.put(key, humanBeing);
 
-        return new Result(true, "", collection);
+        return new Response(true, "", collection);
+    }
+
+    @Override
+    public int getArgsCount() {
+        return 1;
     }
 }
