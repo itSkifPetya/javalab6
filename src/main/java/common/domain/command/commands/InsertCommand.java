@@ -6,10 +6,11 @@ import common.data.models.HumanBeingModel.HumanBeing;
 import common.data.models.HumanBeingModel.WeaponType;
 import common.data.models.Response;
 import common.domain.command.Command;
+import common.domain.command.DataCollector;
 
 import java.util.Hashtable;
 
-public class InsertCommand extends Command {
+public class InsertCommand extends Command implements DataCollector {
     @Override
     public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         Integer key = Integer.parseInt(args[0]);

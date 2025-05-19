@@ -6,10 +6,11 @@ import common.data.models.HumanBeingModel.HumanBeing;
 import common.data.models.HumanBeingModel.WeaponType;
 import common.data.models.Response;
 import common.domain.command.Command;
+import common.domain.command.DataCollector;
 
 import java.util.Hashtable;
 
-public class ReplaceIfGreaterCommand extends Command {
+public class ReplaceIfGreaterCommand extends Command implements DataCollector {
     @Override
     public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         String message = "";

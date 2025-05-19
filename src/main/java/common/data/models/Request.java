@@ -4,11 +4,11 @@ import common.domain.command.Command;
 
 import java.io.Serializable;
 
-public class Query implements Serializable {
+public class Request implements Serializable {
     private final Command command;
     private final String[] args;
 
-    public Query(Command command, String[] args) {
+    public Request(Command command, String[] args) {
         this.command = command;
         this.args = args;
     }

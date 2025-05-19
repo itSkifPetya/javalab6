@@ -1,17 +1,6 @@
 package client;
 
 import client.domain.Client;
-import common.data.models.Query;
-import common.data.models.Response;
-import common.data.models.Serializer;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {

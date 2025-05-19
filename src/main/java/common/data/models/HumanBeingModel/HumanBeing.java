@@ -116,13 +116,15 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
                         "├─ Дата регистрации: %s | Координаты: %d,%.2f%n" +
                         "├─ Удар: %.1f км/ч | Время ожидания: %d мин%n" +
                         "├─ Герой: %s | Оружие: %s%n" +
-                        "└─ Авто: %s%n",
+                        "├─ Авто: %s%n" +
+                        "└─ Трек: %s%n",
                 id,
                 name,
                 creationDate, coordinates.getX(), coordinates.getY(),
                 impactSpeed, minutesOfWaiting,
                 realHero ? "✓" : "✗", weaponType,
-                car != null ? (car.isCool() ? "Крутое" : "Обычное") : "Нет"
+                car != null ? (car.isCool() ? "Крутое" : "Обычное") : "Нет",
+                soundtrackName
         );
     }
 

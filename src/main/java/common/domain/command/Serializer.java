@@ -1,7 +1,6 @@
-package common.data.models;
+package common.domain.command;
 
 import java.io.*;
-import java.nio.ByteBuffer;
 
 public class Serializer {
     private static Serializer instance;

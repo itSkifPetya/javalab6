@@ -1,9 +1,9 @@
 package server.domain;
 
 import common.data.models.HumanBeingModel.HumanBeing;
-import common.data.models.Query;
+import common.data.models.Request;
 import common.data.models.Response;
-import common.data.models.Serializer;
+import common.domain.command.Serializer;
 import common.domain.command.HistoryKeeper;
 import common.domain.command.Invoker;
 
@@ -76,16 +76,17 @@ public class Server {
 
                     while (true) {
                         // Получаем команду
-                        Query query = (Query) serializer.deserialize(is);
-                        System.out.println("Получена команда: " + query.getCommand());
+                        Request request = (Request) serializer.deserialize(is);
+//                        System.out.println(query.getArgs());
+                        System.out.println("Получена команда: " + request.getCommand().getClass().getName());
 
                         // Выполняем команду
-                        Response response = query.getCommand().execute(collection, query.getArgs());
+                        Response response = request.getCommand().execute(collection, request.getArgs());
 
                         String cmd = String.valueOf(invoker.getCommandMap()
                                 .entrySet()
                                 .stream()
-                                .filter(entry -> query.getCommand().equals(entry.getValue()))
+                                .filter(entry -> request.getCommand().equals(entry.getValue()))
                                 .map(Map.Entry::getKey).findFirst());
                         historyKeeper.add(cmd);
 
