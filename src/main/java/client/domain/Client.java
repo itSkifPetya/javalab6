@@ -1,4 +1,5 @@
 package client.domain;
+import com.jcraft.jsch.JSchException;
 import common.data.models.HumanBeingModel.HumanBeing;
 import common.data.models.Request;
 import common.data.models.Response;
@@ -13,7 +14,7 @@ import java.util.Scanner;
 public class Client {
     private static Client instance;
     private static final Scanner SCANNER = new Scanner(System.in);
-
+    private SSHTunnel tunnel;
     private Client() {}
 
     public static Client getInstance() {
@@ -23,20 +24,45 @@ public class Client {
 
     public void start() {
         Serializer serializer = Serializer.getInstance();
-//        Scanner SCANNER = new Scanner(System.in);
         CommandHandler handler = CommandHandler.getInstance();
         int PORT = 0;
+        int opt;
         while (true) {
             try {
-                System.out.print("Введите порт: ");
-                PORT = SCANNER.nextInt();
+                System.out.println("Выберите режим работы:\n1) Сервер и клиент на одном компьютере\n2) Сервер запущен на гелиосе, проброс портов для клиента");
+                System.out.print("Номер: ");
+                opt = Integer.parseInt(SCANNER.nextLine());
                 break;
-            } catch (InputMismatchException e) {
-                System.out.println(e);
-                SCANNER.nextLine();
+            } catch (NumberFormatException e) {
+                System.out.println("Некорректный ввод. Попробуйте ещё раз");
             }
         }
-        SCANNER.nextLine();
+        switch (opt) {
+            case 1 -> {
+                while (true) {
+                    try {
+                        System.out.print("Введите порт: ");
+                        PORT = SCANNER.nextInt();
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println(e);
+//                SCANNER.nextLine();
+                    }
+                }
+//        SCANNER.nextLine();
+            }
+            case 2 -> {
+                tunnel = new SSHTunnel();
+                try {
+                    tunnel.start();
+                } catch (JSchException e) {
+                    throw new RuntimeException(e);
+                }
+                PORT = tunnel.getLocalPort();
+            }
+
+        }
+
 
         try (Socket socket = new Socket("localhost", PORT);
              /*BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))*/) {
@@ -80,6 +106,7 @@ public class Client {
                 // Получаем ответ
                 Response response = (Response) serializer.deserialize(is);
                 System.out.print("Ответ сервера: \n" + response.getMessage());
+
                 for (HumanBeing hb : response.getData().values()) {
                     System.out.println(hb.toPrettyString());
                 }
