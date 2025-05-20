@@ -10,21 +10,21 @@ public class HelpCommand extends Command {
     @Override
     public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         String help = """
-                help: вывести справку по доступным командам\n
-                info: информация о коллекци\n
-                show: вывести коллекцию\n
-                insert {key}: добавить элемент по ключу\n
-                update {id}: обновить элемент по его id\n
-                remove_key {key}: удалить элемент из коллекции по его ключу\n
-                clear: очистить коллекцию\n
-                execute_script {file_path}: выполнить скрипт\n
-                exit: завершить работу клиента\n
-                history: вывести последние 5 команд\n
-                replace_if_greater {key}: заменить элемент по ключу, если новый больше старого\n
-                remove_greater_key {key}: удалить все элементы, ключ которых превышает данный\n
-                sum_of_impact_speed: вывести сумму значений поля impactSpeed для всех элементов коллекции\n
-                min_by_soundtrack_name: вывести любой элемент коллекции с минимальным полем soundtrackName\n
-                group_counting_by_has_toothpick: сгруппировать элементы коллекции по значению поля hasToothpick, вывести количество элементов в каждой группе\n
+                help: вывести справку по доступным командам
+                info: информация о коллекци
+                show: вывести коллекцию
+                insert {key}: добавить элемент по ключу
+                update {id}: обновить элемент по его id
+                remove_key {key}: удалить элемент из коллекции по его ключу
+                clear: очистить коллекцию
+                execute_script {file_path}: выполнить скрипт
+                exit: завершить работу клиента
+                history: вывести последние 5 команд
+                replace_if_greater {key}: заменить элемент по ключу, если новый больше старого
+                remove_greater_key {key}: удалить все элементы, ключ которых превышает данный
+                sum_of_impact_speed: вывести сумму значений поля impactSpeed для всех элементов коллекции
+                min_by_soundtrack_name: вывести любой элемент коллекции с минимальным полем soundtrackName
+                group_counting_by_has_toothpick: сгруппировать элементы коллекции по значению поля hasToothpick, вывести количество элементов в каждой группе
                 """;
         return new Response(true, help, collection);
     }

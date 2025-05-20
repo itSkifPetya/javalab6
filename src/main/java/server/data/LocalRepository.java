@@ -5,17 +5,20 @@ import common.data.models.HumanBeingModel.Coordinates;
 import common.data.models.HumanBeingModel.HumanBeing;
 import common.data.models.HumanBeingModel.WeaponType;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Scanner;
 
 public class LocalRepository {
-    private static LocalRepository instance;
+//    private static LocalRepository instance;
     private final String path;
+    private final Hashtable<Integer, HumanBeing> zeroCollection = new Hashtable<>();
+    private FileWriter fileWriter;
+    private String fileName = "FileName";
 
     public LocalRepository(String path) {
         this.path = path;
@@ -25,7 +28,42 @@ public class LocalRepository {
 //         return new LocalRepository(path);
 //    }
 
+    public void fileWriterInit(String filepath) {
+        try {
+            fileWriter = new FileWriter(filepath);
+            fileWriter.write("id,name,coordX,coordY,creationDate,realHero,hasToothpick,impactSpeed,soundtrackName,miutesOfWaiting,weaponType,car\n");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    private ArrayList<String> humanBeingForm(Hashtable<Integer, HumanBeing> collection) {
+        ArrayList<String> strCollection = new ArrayList<>();
+//        String[] strCollection = new String[];
+        collection.forEach((k, v) -> {
+            strCollection.add(String.join(",", String.valueOf(k), v.getName(), String.valueOf(v.getCoordinates().getX()), String.valueOf(v.getCoordinates().getY()), v.getCreationDate().toString(), v.getRealHero().toString(), v.getHasToothpick().toString(), String.valueOf(v.getImpactSpeed()), v.getSoundtrackName(), String.valueOf(v.getMinutesOfWaiting()), v.getWeaponType().toString(), String.valueOf(v.getCar().getCool())));
+        });
+        return strCollection;
+    }
+
+    public void writeData(Hashtable<Integer, HumanBeing> collection) {
+        again:
+        try (BufferedWriter writer = new BufferedWriter(fileWriter)) {
+//            System.out.println(collection);
+            ArrayList<String> strCollection = humanBeingForm(collection);
+            for (String x : strCollection) {
+                writer.write(x + "\n");
+            }
+        } catch (NullPointerException | IOException e) {
+//            System.out.println(e);
+//            System.out.println(collection);
+            fileWriterInit(fileName);
+//            break again;
+        }
+    }
+
     public Hashtable<Integer, HumanBeing> getData() {
+        zeroCollection.put(HumanBeing.zeroHumanBeing.getId(), HumanBeing.zeroHumanBeing);
         if (path == null) return null;
         Hashtable<Integer, HumanBeing> collection = new Hashtable<>();
         while (true) {
@@ -73,16 +111,18 @@ public class LocalRepository {
 
                     } catch (ValidationException e) {
                         System.err.println("Ошибка в строке: " + line + " | " + e.getMessage());
-                        return null;
+                        System.out.println("Загружаю пустую коллекцию");
+                        return zeroCollection;
                     }
                 }
 
                 break;
             } catch (FileNotFoundException e) {
-                System.out.println("Файл не найден");
+                System.out.println("Файл не найден. Загружаю пустую коллекцию");
+                break;
             }
         }
-        return collection.isEmpty() ? null : collection; // Возвращаем null если коллекция пуста
+        return collection.isEmpty() ? zeroCollection : collection; // Возвращаем null если коллекция пуста
     }
 
     //--- Вспомогательные методы валидации ---

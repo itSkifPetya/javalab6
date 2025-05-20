@@ -10,9 +10,9 @@ public class ShowCommand extends Command {
     @Override
     public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         String message = "";
-        for (HumanBeing hb : collection.values()) {
-            message += hb.toPrettyString() + "\n";
-        }
+//        for (HumanBeing hb : collection.values()) {
+//            message += hb.toPrettyString() + "\n";
+//        }
         return new Response(true, message, collection);
     }
 }

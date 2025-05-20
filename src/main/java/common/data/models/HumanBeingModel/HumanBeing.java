@@ -2,7 +2,6 @@ package common.data.models.HumanBeingModel;
 
 
 import java.io.Serializable;
-import java.nio.ByteBuffer;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -21,6 +20,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     private long minutesOfWaiting;
     private WeaponType weaponType; //Поле не может быть null
     private Car car; //Поле может быть null
+    public static final HumanBeing zeroHumanBeing = new HumanBeing("Zero", new Coordinates(1, 1.1), false, false, 1.0, "Zero", 1, WeaponType.PISTOL, new Car(false));
 
     private HumanBeing(Integer id, String name, Coordinates coordinates, LocalDate creationDate, Boolean realHero, Boolean hasToothpick, double impactSpeed, String soundtrackName, long minutesOfWaiting, WeaponType weaponType, Car car) throws NullPointerException {
         if (name == null) throw new NullPointerException("Поле name не может быть пустым!");
@@ -45,8 +45,10 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
 
 
     public HumanBeing(String name, Coordinates coordinates, Boolean realHero, Boolean hasToothpick, double impactSpeed, String soundtrackName, long minutesOfWaiting, WeaponType weaponType, Car car) throws NullPointerException {
+//        UUID uuid = UUID.randomUUID();
+//        this.id = ByteBuffer.wrap(uuid.toString().getBytes()).getInt();
         UUID uuid = UUID.randomUUID();
-        this.id = ByteBuffer.wrap(uuid.toString().getBytes()).getInt();
+        this.id = Integer.parseInt(uuid.toString().substring(0, 3).replace("-", ""), 16);
         if (name == null) throw new NullPointerException("Поле name не может быть пустым!");
         if (coordinates == null) throw new NullPointerException("Поле coordinates не может быть пустым!");
         if (realHero == null) throw new NullPointerException("Поле realHero не может быть пустым!");
@@ -116,6 +118,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
                         "├─ Дата регистрации: %s | Координаты: (%d; %.2f)%n" +
                         "├─ Удар: %.1f км/ч | Время ожидания: %d мин%n" +
                         "├─ Герой: %s | Оружие: %s%n" +
+                        "├─ Зубочистка: %s%n" +
                         "├─ Авто: %s%n" +
                         "└─ Трек: %s%n",
                 id,
@@ -123,7 +126,8 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
                 creationDate, coordinates.getX(), coordinates.getY(),
                 impactSpeed, minutesOfWaiting,
                 realHero ? "✓" : "✗", weaponType,
-                car != null ? (car.isCool() ? "Крутое" : "Обычное") : "Нет",
+                hasToothpick ? "✓" : "✗",
+                car != null ? (car.getCool() ? "Крутое" : "Обычное") : "Нет",
                 soundtrackName
         );
     }

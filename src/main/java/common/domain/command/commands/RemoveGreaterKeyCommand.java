@@ -12,12 +12,24 @@ public class RemoveGreaterKeyCommand extends Command {
     @Override
     public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
         Integer key = Integer.parseInt(args[0]);
+        System.out.println(key);
+
+//        Hashtable<Integer, HumanBeing> newCol = new Hashtable<>(collection); // Полная копия
+//        newCol.keySet().removeIf(k -> k >= key); // Удаляем ненужные элементы
         Hashtable<Integer, HumanBeing> newCol = collection
                 .entrySet()
                 .stream()
-                .filter(entry -> entry.getKey() <= key)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, Hashtable<Integer, HumanBeing>::new));
-        return new Response(true, "", collection);
+                .filter(entry -> entry.getValue().getId() < key)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existing, replacement) -> existing,  // Решение конфликтов
+                        Hashtable::new  // Более короткая запись
+                ));
+//        for (HumanBeing hb : newCol.values()) {
+//            System.out.println(hb.toPrettyString());
+//        }
+        return new Response(true, "Команда выполнена", newCol);
     }
 
     @Override

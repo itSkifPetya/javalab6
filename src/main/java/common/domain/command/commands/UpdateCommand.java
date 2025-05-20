@@ -32,7 +32,7 @@ public class UpdateCommand extends Command implements DataCollector {
 
         HumanBeing humanBeing = HumanBeing.insertHumanBeing(id, name, coordinates, realHero, hasToothpick, impactSpeed, soundtrackName, minutesOfWaiting, weaponType, car);
         collection.replace(id, humanBeing);
-        return new Response(true, "", collection);
+        return new Response(true, "Объект успешно обновлён", collection);
     }
 
     @Override

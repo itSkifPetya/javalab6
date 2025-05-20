@@ -1,21 +1,26 @@
 package common.domain.command;
 
+import common.data.models.HumanBeingModel.HumanBeing;
 import common.domain.command.commands.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Класс Invoker, в котором инициализируется коллекция доступных команд
  */
 public class Invoker {
     private static Invoker instance;
-    private Map<String, Command> commandMap = new HashMap<>();
+    private HashMap<String, Command> commandMap = new HashMap<>();
 
-    private Invoker() {}
+    private Invoker() {
+    }
 
     /**
      * Реализация Singleton
+     *
      * @return
      */
     public static Invoker getInstance() {
@@ -46,11 +51,11 @@ public class Invoker {
         commandMap.put("sum_of_impact_speed", new SumOfImpactSpeedCommand());
         commandMap.put("min_by_soundtrack_name", new MinBySoundtrackNameCommand());
         commandMap.put("group_counting_by_has_toothpick", new GroupCountingByHasToothpickCommand());
-//        commandMap.put("load_collection")/**/
     }
 
     /**
      * Вощвращает коллекцию инициализированных команд.
+     *
      * @return
      */
     public Map<String, Command> getCommandMap() {
@@ -58,10 +63,16 @@ public class Invoker {
     }
 
     public String getCommandName(Command command) {
-        return String.valueOf(commandMap
-                .entrySet()
+        if (command == null) {
+            return null; // или throw new IllegalArgumentException("Command cannot be null");
+        }
+
+        return commandMap.entrySet()
                 .stream()
-                .filter(entry -> command.equals(entry.getValue()))
-                .map(Map.Entry::getKey).findFirst());
+                .filter(entry -> entry.getValue() != null &&
+                        command.getClass().equals(entry.getValue().getClass()))
+                .findFirst()
+                .map(Map.Entry::getKey)
+                .orElse(null); // или orElse("unknown_command")
     }
 }

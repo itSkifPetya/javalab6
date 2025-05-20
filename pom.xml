@@ -37,45 +37,102 @@
 
     <build>
         <plugins>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                <version>3.6.0</version>-->
+
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-jar-plugin</artifactId>-->
+<!--                <version>3.3.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>client</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>jar</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <classifier>client</classifier>-->
+<!--                            <archive>-->
+<!--                                <manifest>-->
+<!--                                    <mainClass>client.Main</mainClass>-->
+<!--                                </manifest>-->
+<!--                            </archive>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                    <execution>-->
+<!--                        <id>server</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>jar</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <classifier>server</classifier>-->
+<!--                            <archive>-->
+<!--                                <manifest>-->
+<!--                                    <mainClass>server.Main</mainClass>-->
+<!--                                </manifest>-->
+<!--                            </archive>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
                 <executions>
+
+                    <!-- Сборка fat jar для клиента -->
                     <execution>
-                        <id>client</id>
+                        <id>client-fat</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
-                            <classifier>client</classifier>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
                             <archive>
                                 <manifest>
                                     <mainClass>client.Main</mainClass>
                                 </manifest>
                             </archive>
+                            <finalName>JL6-1-client-fat</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+<!--                            <classifier>client-fat</classifier>-->
                         </configuration>
                     </execution>
+
+                    <!-- Сборка fat jar для сервера -->
                     <execution>
-                        <id>server</id>
+                        <id>server-fat</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
-                            <classifier>server</classifier>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
                             <archive>
                                 <manifest>
                                     <mainClass>server.Main</mainClass>
                                 </manifest>
                             </archive>
+                            <finalName>JL6-1-server-fat</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+<!--                            <classifier>server-fat</classifier>-->
                         </configuration>
                     </execution>
 
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 

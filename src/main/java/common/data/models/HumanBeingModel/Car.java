@@ -12,7 +12,7 @@ public class Car implements Serializable {
         this.cool = cool;
     }
 
-    public Boolean isCool() {
+    public Boolean getCool() {
         return cool;
     }
 

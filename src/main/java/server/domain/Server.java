@@ -18,8 +18,12 @@ import java.util.*;
 public class Server {
     private static Server instance;
     private final Map<SocketChannel, ClientContext> clients = new HashMap<>();
+    private static Hashtable<Integer, HumanBeing> globalCollection = new Hashtable<>();
+    private static String fileName = "";
+    private static boolean hasFileName = false;
 
-    private Server() {}
+    private Server() {
+    }
 
     public static Server getInstance() {
         if (instance == null) {
@@ -33,6 +37,8 @@ public class Server {
         Scanner sc = new Scanner(System.in);
         HistoryKeeper historyKeeper = HistoryKeeper.getInstance();
         Invoker invoker = Invoker.getInstance();
+        invoker.invokerInit();
+
 
         int PORT = 0;
         while (true) {
@@ -55,6 +61,12 @@ public class Server {
                 while (true) {
                     int readyChannels = selector.select();
                     if (readyChannels == 0) continue;
+
+                    if (hasFileName) {
+                        Thread consoleThread = new Thread(new ConsoleInputHandler(serializer, "default_collection.csv"));
+                        consoleThread.setDaemon(true); // Поток завершится вместе с основной программой
+                        consoleThread.start();
+                    }
 
                     Set<SelectionKey> selectedKeys = selector.selectedKeys();
                     Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
@@ -130,6 +142,8 @@ public class Server {
             byte[] fileNameBytes = new byte[buffer.remaining()];
             buffer.get(fileNameBytes);
             context.fileName = new String(fileNameBytes).trim().strip();
+            fileName = context.fileName;
+            hasFileName = true;
             System.out.println("Файл: " + context.fileName);
             context.state = ClientContext.ClientState.LOADING_COLLECTION;
         }
@@ -139,6 +153,7 @@ public class Server {
         LocalRepository repo = new LocalRepository(context.fileName);
         context.collection = repo.getData();
         context.state = ClientContext.ClientState.PROCESSING_COMMANDS;
+        Server.globalCollection = context.collection;
         System.out.println("Готов к работе с командами...");
     }
 
@@ -153,10 +168,8 @@ public class Server {
             }
             buffer.flip();
 
-
             byte[] data = new byte[buffer.remaining()];
             buffer.get(data);
-
 
             try {
 //                Thread.sleep(1000);
@@ -189,6 +202,31 @@ public class Server {
             WAITING_FILE_NAME,
             LOADING_COLLECTION,
             PROCESSING_COMMANDS
+        }
+    }
+
+    private static class ConsoleInputHandler implements Runnable {
+        private final Serializer serializer;
+        private final String fileName;
+
+        public ConsoleInputHandler(Serializer serializer, String fileName) {
+            this.serializer = serializer;
+            this.fileName = fileName;
+        }
+
+        @Override
+        public void run() {
+            Scanner consoleScanner = new Scanner(System.in);
+            while (true) {
+                String input = consoleScanner.nextLine().trim();
+                if ("save".equalsIgnoreCase(input)) {
+                    LocalRepository repo = new LocalRepository(fileName);
+                    repo.writeData(globalCollection);
+                    System.out.println("Коллекция успешно сохранена.");
+                } else {
+                    System.out.println("Неизвестная команда: " + input);
+                }
+            }
         }
     }
 }

@@ -37,6 +37,7 @@ public class Client {
                 System.out.println("Некорректный ввод. Попробуйте ещё раз");
             }
         }
+
         switch (opt) {
             case 1 -> {
                 while (true) {
@@ -67,18 +68,25 @@ public class Client {
         try (Socket socket = new Socket("localhost", PORT)) {
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
+            while (true) {
+                // Этап 1: Отправляем имя файла
+                System.out.print("Введите имя файла: ");
+                String fileName = SCANNER.nextLine();
+                String response = "";
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
+                writer.write(fileName);
+                writer.flush();
 
-            // Этап 1: Отправляем имя файла
-            System.out.print("Введите имя файла: ");
-            String fileName = SCANNER.nextLine();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
-            writer.write(fileName);
-            writer.flush();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                reader.read(response.toCharArray());
+                break;
 
+            }
             // Этап 2: Начинаем обмен командами
             while (true) {
                 System.out.print("> ");
                 String input = SCANNER.nextLine();
+
                 if ("exit".equalsIgnoreCase(input)) {
                     socket.close();
                     return;
@@ -87,17 +95,12 @@ public class Client {
                 String[] parts = input.split(" ", 2);
                 String commandName = parts[0];
                 String[] args = parts.length > 1 ? new String[]{parts[1]} : new String[0];
-                Request request;
-                try {
-                    request = handler.collectRequest(commandName, args);
-                } catch (Exception e) {
-                    System.out.println(e);
-                    continue;
-                }
+                Request request = handler.collectRequest(commandName, args);
 
 
                 if (request.getCommand() == null) {
                     System.out.printf("Команда %s не распознана\n", commandName);
+                    continue;
                 }
 
                 serializer.serialize(request, os);
@@ -107,10 +110,12 @@ public class Client {
 
                 // Получаем ответ
                 Response response = (Response) serializer.deserialize(is);
-                System.out.print("Ответ сервера: \n" + response.getMessage());
+                System.out.println("Ответ сервера: \n" + response.getMessage());
 
-                for (HumanBeing hb : response.getData().values()) {
-                    System.out.println(hb.toPrettyString());
+                if (commandName.equals("show")) {
+                    for (HumanBeing hb : response.getData().values()) {
+                        System.out.println(hb.toPrettyString());
+                    }
                 }
             }
 

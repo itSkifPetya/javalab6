@@ -29,11 +29,11 @@ public class InsertCommand extends Command implements DataCollector {
         WeaponType weaponType = WeaponType.valueOf(args[9]);
         Car car = new Car(Boolean.parseBoolean(args[10]));
 
-        HumanBeing humanBeing = new HumanBeing(name, coordinates, realHero, hasToothpick, impactSpeed, soundtrackName, minutesOfWaiting, weaponType, car);
+        HumanBeing humanBeing = HumanBeing.insertHumanBeing(key, name, coordinates, realHero, hasToothpick, impactSpeed, soundtrackName, minutesOfWaiting, weaponType, car);
 
         collection.put(key, humanBeing);
 
-        return new Response(true, "", collection);
+        return new Response(true, "Объект добавлен", collection);
     }
 
     @Override

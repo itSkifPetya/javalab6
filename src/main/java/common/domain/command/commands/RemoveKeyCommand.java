@@ -14,9 +14,9 @@ public class RemoveKeyCommand extends Command {
 
         if (keyExists) {
             collection.remove(key);
-            return new Response(true, "", collection);
+            return new Response(true, "Объект с ID: %s удалён.\n".formatted(key), collection);
         } else {
-            return new Response(false, "Элемент с таким ключом не существует", collection);
+            return new Response(false, "Элемент с таким ключом не существует\n", collection);
         }
     }
 

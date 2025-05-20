@@ -34,6 +34,7 @@ public class ReplaceIfGreaterCommand extends Command implements DataCollector {
         HumanBeing oldHumanBeing = collection.get(key);
         HumanBeing newHumanBeing = HumanBeing.insertHumanBeing(key, name, coordinates, realHero, hasToothpick, impactSpeed, soundtrackName, minutesOfWaiting, weaponType, car);
         if (oldHumanBeing.getImpactSpeed() < newHumanBeing.getImpactSpeed()) {
+            message = "Объект успешно заменён";
             collection.replace(key, newHumanBeing);
         } else {
             message += "Новый элемент меньше старого. Коллекция не изменена.";
