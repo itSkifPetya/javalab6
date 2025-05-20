@@ -137,7 +137,7 @@ public class CommandHandler {
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: Введите целое число (int)" + e);
+                System.out.println("Ошибка: Введите вещественное число (double) " + e);
             }
         }
         argsList.add(String.valueOf(impactSpeed));

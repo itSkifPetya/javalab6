@@ -113,7 +113,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
         return String.format(
                 "─── ID: %d ───%n" +
                         "├─ Пострадавший: %s%n" +
-                        "├─ Дата регистрации: %s | Координаты: %d,%.2f%n" +
+                        "├─ Дата регистрации: %s | Координаты: (%d; %.2f)%n" +
                         "├─ Удар: %.1f км/ч | Время ожидания: %d мин%n" +
                         "├─ Герой: %s | Оружие: %s%n" +
                         "├─ Авто: %s%n" +

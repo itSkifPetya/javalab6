@@ -56,4 +56,12 @@ public class Invoker {
     public Map<String, Command> getCommandMap() {
         return commandMap;
     }
+
+    public String getCommandName(Command command) {
+        return String.valueOf(commandMap
+                .entrySet()
+                .stream()
+                .filter(entry -> command.equals(entry.getValue()))
+                .map(Map.Entry::getKey).findFirst());
+    }
 }

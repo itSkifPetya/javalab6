@@ -46,10 +46,10 @@ public class Client {
                         break;
                     } catch (InputMismatchException e) {
                         System.out.println(e);
-//                SCANNER.nextLine();
+                SCANNER.nextLine();
                     }
                 }
-//        SCANNER.nextLine();
+        SCANNER.nextLine();
             }
             case 2 -> {
                 tunnel = new SSHTunnel();
@@ -64,9 +64,7 @@ public class Client {
         }
 
 
-        try (Socket socket = new Socket("localhost", PORT);
-             /*BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))*/) {
-
+        try (Socket socket = new Socket("localhost", PORT)) {
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
 
@@ -74,20 +72,21 @@ public class Client {
             System.out.print("Введите имя файла: ");
             String fileName = SCANNER.nextLine();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
-            writer.write(fileName + "\n");
+            writer.write(fileName);
             writer.flush();
 
             // Этап 2: Начинаем обмен командами
             while (true) {
                 System.out.print("> ");
                 String input = SCANNER.nextLine();
-                System.out.println(input);
-                if ("exit".equalsIgnoreCase(input)) break;
+                if ("exit".equalsIgnoreCase(input)) {
+                    socket.close();
+                    return;
+                }
 
                 String[] parts = input.split(" ", 2);
                 String commandName = parts[0];
                 String[] args = parts.length > 1 ? new String[]{parts[1]} : new String[0];
-                System.out.println(Arrays.toString(args));
                 Request request;
                 try {
                     request = handler.collectRequest(commandName, args);
@@ -102,6 +101,9 @@ public class Client {
                 }
 
                 serializer.serialize(request, os);
+//                byte[] data = serializer.serializeWithSize(request);
+//                serializer.sendObjectWithSize(data, os);
+//                Thread.sleep(1000);
 
                 // Получаем ответ
                 Response response = (Response) serializer.deserialize(is);

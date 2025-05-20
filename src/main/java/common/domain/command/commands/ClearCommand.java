@@ -9,6 +9,6 @@ import java.util.Hashtable;
 public class ClearCommand extends Command {
     @Override
     public Response execute(Hashtable<Integer, HumanBeing> collection, String[] args) {
-        return new Response(true, "", new Hashtable<Integer, HumanBeing>());
+        return new Response(true, "Коллекция очищена!", new Hashtable<Integer, HumanBeing>());
     }
 }

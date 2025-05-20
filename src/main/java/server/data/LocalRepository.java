@@ -1,4 +1,4 @@
-package server.domain;
+package server.data;
 
 import common.data.models.HumanBeingModel.Car;
 import common.data.models.HumanBeingModel.Coordinates;
